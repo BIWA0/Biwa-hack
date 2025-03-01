@@ -19,11 +19,32 @@
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
+        .flowers {
+            font-size: 30px;
+            margin-top: 20px;
+            animation: float 3s infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(10px); }
+        }
+        .miss-you {
+            font-size: 24px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: pink;
+        }
     </style>
 </head>
 <body>
     <h1>💖 Surprise for Niha! 💖</h1>
     <p>Wait for the magic...</p>
     <div class="heart">❤️</div>
+    
+    <!-- Animated Flowers -->
+    <div class="flowers">🌸 🌼 🌺 🌷 🌻 🌹</div>
+    
+    <!-- "I miss you" message -->
+    <div class="miss-you">I miss you, Niha! 💕</div>
 </body>
 </html>

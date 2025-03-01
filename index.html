@@ -8,31 +8,56 @@
             color: white;
             text-align: center;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
+        
         .heart {
             font-size: 50px;
             color: red;
             animation: pulse 1s infinite;
         }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-        .flowers {
-            font-size: 30px;
-            margin-top: 20px;
-            animation: float 3s infinite alternate;
+
+        .flowers-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 3s forwards 2s;
         }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(10px); }
+
+        .flower {
+            font-size: 80px;
+            margin: 10px;
+            animation: floatUp 3s infinite alternate ease-in-out;
         }
-        .miss-you {
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .message {
             font-size: 24px;
-            margin-top: 10px;
-            font-weight: bold;
-            color: pink;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 5s;
         }
     </style>
 </head>
@@ -40,11 +65,18 @@
     <h1>💖 Surprise for Niha! 💖</h1>
     <p>Wait for the magic...</p>
     <div class="heart">❤️</div>
-    
-    <!-- Animated Flowers -->
-    <div class="flowers">🌸 🌼 🌺 🌷 🌻 🌹</div>
-    
-    <!-- "I miss you" message -->
-    <div class="miss-you">I miss you, Niha! 💕</div>
+
+    <div class="flowers-container">
+        <span class="flower">🌸</span>
+        <span class="flower">🌻</span>
+        <span class="flower">🌹</span>
+        <span class="flower">🌺</span>
+        <span class="flower">🌷</span>
+        <span class="flower">🌼</span>
+    </div>
+
+    <div class="message">
+        <p>I miss you, Niha! 💕</p>
+    </div>
 </body>
 </html>

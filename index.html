@@ -56,10 +56,13 @@
                 alert(location.message);
                 clickedMarkers++;
 
-                // If all markers are clicked, show final surprise
+                // If all markers are clicked, show first message
                 if (clickedMarkers === totalMarkers) {
                     setTimeout(() => {
-                        // First zoom out to show the whole world
+                        // Show the intermediate message first
+                        alert("In this whole world, one person is missing you a lot, Niha. Let me take you there!");
+
+                        // Then zoom out to show the whole world
                         map.flyTo([0, 0], 1, {
                             duration: 3, // Zoom out slowly over 3 seconds
                             easeLinearity: 0.5
@@ -72,7 +75,7 @@
                                 easeLinearity: 0.5
                             });
                             setTimeout(() => {
-                                alert("Bhagii is missing you from here ❤️");
+                                alert("Bhagii is missing you from here ❤️"); // Final message after zoom-in
                             }, 5000); // Message after the zoom-in
                         }, 3000); // Wait for 3 seconds before zooming in
                     }, 1000); // Wait 1 second after the last marker is clicked

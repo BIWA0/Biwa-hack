@@ -59,8 +59,12 @@
                 // If all markers are clicked, show final surprise
                 if (clickedMarkers === totalMarkers) {
                     setTimeout(() => {
-                        map.setView([13.7490, 79.7037], 12); // Zoom into Srikalahasti
-                        alert("Missing you from here ❤️");
+                        map.flyTo([13.7490, 79.7037], 12, {
+                            duration: 2 // Smooth zoom effect with a 2-second duration
+                        });
+                        setTimeout(() => {
+                            alert("Bhagii is missing you from here ❤️");
+                        }, 2000); // Message after the zoom effect
                     }, 1000);
                 }
             });

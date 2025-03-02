@@ -4,69 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Map Adventure</title>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
     <style>
         body {
             margin: 0;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
+            overflow: hidden;
         }
         #map {
             width: 100vw;
             height: 100vh;
         }
-        .message-box {
+        #messageBox {
+            display: none;
             position: absolute;
-            top: 10px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.8);
             color: white;
             padding: 15px;
             border-radius: 10px;
-            font-size: 20px;
-            display: none;
+            font-size: 18px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
 <div id="map"></div>
-<div class="message-box" id="messageBox"></div>
+<div id="messageBox">💖 "No matter where we are, my heart always finds its way to you!" 💖</div>
 
 <script>
-    // Initialize the map
-    var map = L.map('map').setView([20, 77], 5); // Starts zoomed out
-
-    // Add tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Zoom into Kerala smoothly
-    setTimeout(() => {
-        map.flyTo([10, 76], 8, { duration: 5 });
-    }, 2000);
-
-    // Locations with love messages
-    var locations = [
-        { coords: [10.8505, 76.2711], message: "This is where our love shines the brightest!" },
-        { coords: [9.9312, 76.2673], message: "Every star in the sky reminds me of you!" },
-        { coords: [8.5241, 76.9366], message: "If love had a map, you'd be the treasure!" }
-    ];
-
-    locations.forEach(location => {
-        let marker = L.marker(location.coords).addTo(map);
-        marker.on('click', function () {
-            let box = document.getElementById("messageBox");
-            box.innerText = location.message;
-            box.style.display = "block";
-            setTimeout(() => { box.style.display = "none"; }, 3000);
+    function initMap() {
+        var location = { lat: 10.8505, lng: 76.2711 }; // Kerala coordinates
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: location,
         });
-    });
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: "Click me!",
+        });
+
+        marker.addListener("click", function () {
+            var messageBox = document.getElementById("messageBox");
+            messageBox.style.display = "block";
+            setTimeout(() => { messageBox.style.display = "none"; }, 5000);
+        });
+    }
+
+    window.onload = initMap;
 </script>
 
 </body>

@@ -7,157 +7,74 @@
     <style>
         body {
             margin: 0;
+            background-color: black;
             overflow: hidden;
-            background: radial-gradient(circle at bottom, #001a33, black);
             position: relative;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
         }
-        canvas {
+
+        /* Container for stars */
+        .star {
             position: absolute;
-            top: 0;
-            left: 0;
+            background-color: white;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
         }
-        .message {
-            position: absolute;
-            font-size: 18px;
-            display: none;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 8px;
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
-        .shooting-star {
-            position: absolute;
-            width: 3px;
-            height: 60px;
-            background: white;
-            opacity: 0;
-            transform: rotate(-45deg);
-        }
-        #finalMessage {
+
+        /* Love Letter Text */
+        #loveLetter {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            color: white;
             font-size: 24px;
-            display: none;
-            animation: fadeIn 2s forwards;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            opacity: 0;
+            animation: fadeIn 3s forwards 2s;
         }
+
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-<canvas id="starCanvas"></canvas>
-
-<div id="finalMessage">🌠 "My love for you shines brighter than every star in the sky." 💖</div>
+<!-- Love Letter -->
+<div id="loveLetter">My love for you shines brighter than all the stars in the sky. ✨</div>
 
 <script>
-    const canvas = document.getElementById("starCanvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let stars = [];
-    let messages = [
-        "You are my brightest star. ✨",
-        "Every night, I dream of you. 💫",
-        "You make my world shine. 🌟",
-        "With you, even darkness feels warm. ❤️",
-        "I love you more than the universe itself. 🚀"
-    ];
-    
-    let revealedMessages = 0;
-
-    class Star {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.radius = Math.random() * 2 + 1;
-            this.opacity = Math.random();
-            this.twinkleSpeed = Math.random() * 0.02;
-        }
-
-        draw() {
-            ctx.globalAlpha = this.opacity;
-            ctx.fillStyle = "white";
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        }
-
-        twinkle() {
-            this.opacity += this.twinkleSpeed;
-            if (this.opacity > 1 || this.opacity < 0.2) {
-                this.twinkleSpeed *= -1;
-            }
-        }
-    }
-
-    for (let i = 0; i < 100; i++) {
-        stars.push(new Star());
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
-            star.twinkle();
-            star.draw();
-        });
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    function createMessage(x, y, text) {
-        let message = document.createElement("div");
-        message.classList.add("message");
-        message.style.left = x + "px";
-        message.style.top = y + "px";
-        message.innerText = text;
-        document.body.appendChild(message);
-        setTimeout(() => { message.style.display = "block"; }, 200);
-        setTimeout(() => { message.style.opacity = "0"; }, 2000);
-    }
-
-    canvas.addEventListener("click", function(event) {
-        if (messages.length > 0) {
-            let randomIndex = Math.floor(Math.random() * messages.length);
-            let messageText = messages[randomIndex];
-            messages.splice(randomIndex, 1);
-            createMessage(event.clientX, event.clientY, messageText);
-            revealedMessages++;
-            if (revealedMessages === 5) {
-                setTimeout(showShootingStar, 2000);
-            }
-        }
-    });
-
-    function showShootingStar() {
+    function createStar() {
         let star = document.createElement("div");
-        star.classList.add("shooting-star");
-        star.style.left = Math.random() * window.innerWidth + "px";
-        star.style.top = "10px";
+        star.className = "star";
         document.body.appendChild(star);
 
-        star.animate([
-            { transform: "translate(0, 0)", opacity: 1 },
-            { transform: "translate(100px, 300px)", opacity: 0 }
-        ], {
-            duration: 2000,
-            easing: "linear"
-        });
+        // Random position
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
 
-        setTimeout(() => {
-            star.remove();
-            document.getElementById("finalMessage").style.display = "block";
-        }, 2000);
+        // Random twinkle speed
+        let duration = Math.random() * 2 + 1;
+        star.style.animationDuration = `${duration}s`;
+
+        // Remove old stars after some time to refresh the sky
+        setTimeout(() => { star.remove(); }, 5000);
+    }
+
+    // Generate multiple stars
+    for (let i = 0; i < 150; i++) {
+        createStar();
     }
 </script>
 

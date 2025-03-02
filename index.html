@@ -4,114 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Map Adventure</title>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
             background-color: black;
+            color: white;
         }
-        #mapContainer {
-            position: relative;
+        #map {
             width: 100vw;
             height: 100vh;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/3/39/BlankMap-World6.svg') no-repeat center;
-            background-size: cover;
-            transition: transform 2s ease-in-out;
         }
-        .heart {
+        .message-box {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: red;
-            border-radius: 50%;
-            box-shadow: 0 0 10px red;
-            cursor: pointer;
-            animation: glow 1s infinite alternate;
-        }
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px red; }
-            100% { box-shadow: 0 0 15px red; }
-        }
-        #messageBox {
-            position: absolute;
-            bottom: 20px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 18px;
-            text-align: center;
-            display: none;
-        }
-        #finalMessage {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 28px;
-            color: white;
-            background: rgba(255, 0, 0, 0.8);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            text-align: center;
+            font-size: 20px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div id="mapContainer"></div>
-<div id="messageBox"></div>
-<div id="finalMessage">Our love is a journey, and all roads lead to you, my Niha! ❤️</div>
+<div id="map"></div>
+<div class="message-box" id="messageBox"></div>
 
 <script>
-    const messages = [
-        "Our love travels across the world...",
-        "Every moment with you is an adventure...",
-        "No distance can keep us apart...",
-        "Like a map, love always finds its way...",
-        "Every heartbeat brings me closer to you...",
-        "Kerala, here we come! ❤️"
+    // Initialize the map
+    var map = L.map('map').setView([20, 77], 5); // Starts zoomed out
+
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Zoom into Kerala smoothly
+    setTimeout(() => {
+        map.flyTo([10, 76], 8, { duration: 5 });
+    }, 2000);
+
+    // Locations with love messages
+    var locations = [
+        { coords: [10.8505, 76.2711], message: "This is where our love shines the brightest!" },
+        { coords: [9.9312, 76.2673], message: "Every star in the sky reminds me of you!" },
+        { coords: [8.5241, 76.9366], message: "If love had a map, you'd be the treasure!" }
     ];
 
-    const hearts = [
-        { x: "20%", y: "30%" },
-        { x: "50%", y: "20%" },
-        { x: "70%", y: "40%" },
-        { x: "30%", y: "70%" },
-        { x: "60%", y: "80%" },
-        { x: "80%", y: "60%" }
-    ];
-
-    let clickedCount = 0;
-    const map = document.getElementById("mapContainer");
-    const messageBox = document.getElementById("messageBox");
-    const finalMessage = document.getElementById("finalMessage");
-
-    hearts.forEach((pos, index) => {
-        let heart = document.createElement("div");
-        heart.className = "heart";
-        heart.style.left = pos.x;
-        heart.style.top = pos.y;
-        heart.addEventListener("click", function() {
-            heart.style.display = "none";
-            messageBox.innerText = messages[clickedCount];
-            messageBox.style.display = "block";
-            setTimeout(() => messageBox.style.display = "none", 2000);
-            clickedCount++;
-            
-            if (clickedCount === hearts.length) {
-                map.style.transform = "scale(2) translate(-30%, 20%)";
-                setTimeout(() => finalMessage.style.display = "block", 3000);
-            }
+    locations.forEach(location => {
+        let marker = L.marker(location.coords).addTo(map);
+        marker.on('click', function () {
+            let box = document.getElementById("messageBox");
+            box.innerText = location.message;
+            box.style.display = "block";
+            setTimeout(() => { box.style.display = "none"; }, 3000);
         });
-        map.appendChild(heart);
     });
 </script>
 

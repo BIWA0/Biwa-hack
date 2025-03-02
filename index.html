@@ -9,7 +9,7 @@
             margin: 0;
             overflow: hidden;
             background-color: black;
-            color: black;
+            color: white;
             font-family: Arial, sans-serif;
         }
 
@@ -19,16 +19,13 @@
             left: 0;
         }
 
-        #loveMessage {
+        .message {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            text-align: center;
-            display: none;
+            color: white;
+            font-size: 20px;
+            text-shadow: 2px 2px 5px black;
             opacity: 0;
-            transition: opacity 2s;
+            transition: opacity 1s, transform 2s;
         }
 
         .shooting-star {
@@ -51,7 +48,6 @@
 <body>
 
 <canvas id="starCanvas"></canvas>
-<div id="loveMessage"></div>
 
 <script>
     const canvas = document.getElementById("starCanvas");
@@ -63,10 +59,11 @@
     let stars = [];
     let messages = [
         "Hey love,",
-        "Every moment with you is magic.",
-        "You light up my world like these stars.",
+        "You make my nights brighter than the stars.",
+        "Every moment with you feels magical.",
         "I love you more than words can say.",
-        "Forever and always, my heart is yours."
+        "You are my heart, my soul, my everything.",
+        "Forever and always, I'm yours."
     ];
     let revealedMessages = 0;
 
@@ -76,7 +73,8 @@
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: Math.random() * 2 + 1,
-                twinkle: Math.random() * 2
+                message: messages[i % messages.length],
+                clicked: false
             });
         }
     }
@@ -84,34 +82,54 @@
     function drawStars() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         stars.forEach(star => {
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
-            ctx.fill();
+            if (!star.clicked) {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, 1)`;
+                ctx.fill();
+            }
         });
-        requestAnimationFrame(drawStars);
     }
 
     function handleClick(event) {
         let x = event.clientX;
         let y = event.clientY;
 
-        stars.forEach((star, index) => {
+        for (let i = 0; i < stars.length; i++) {
+            let star = stars[i];
             let distance = Math.sqrt((star.x - x) ** 2 + (star.y - y) ** 2);
-            if (distance < 10) {
-                stars.splice(index, 1);
-                if (revealedMessages < messages.length) {
-                    document.getElementById("loveMessage").innerText = messages[revealedMessages];
-                    document.getElementById("loveMessage").style.display = "block";
-                    document.getElementById("loveMessage").style.opacity = 1;
-                    revealedMessages++;
+            if (distance < 10 && !star.clicked) {
+                star.clicked = true;
+                drawStars();
+                showMessage(star.x, star.y, star.message);
+
+                revealedMessages++;
+                if (revealedMessages === stars.length) {
+                    setTimeout(showShootingStar, 3000);
                 }
 
-                if (revealedMessages === messages.length) {
-                    setTimeout(showShootingStar, 2000);
-                }
+                break;
             }
-        });
+        }
+    }
+
+    function showMessage(x, y, text) {
+        let msg = document.createElement("div");
+        msg.className = "message";
+        msg.innerText = text;
+        msg.style.left = x + "px";
+        msg.style.top = y + "px";
+        document.body.appendChild(msg);
+
+        setTimeout(() => {
+            msg.style.opacity = 1;
+            msg.style.transform = "translateY(-40px)";
+        }, 100);
+
+        setTimeout(() => {
+            msg.style.opacity = 0;
+            setTimeout(() => msg.remove(), 2000);
+        }, 3000);
     }
 
     function showShootingStar() {
@@ -120,10 +138,10 @@
         star.style.top = Math.random() * window.innerHeight + "px";
         star.style.left = Math.random() * window.innerWidth + "px";
         document.body.appendChild(star);
-        
+
         setTimeout(() => {
             star.remove();
-            document.getElementById("loveMessage").innerText = "You are my brightest star, always.";
+            showMessage(window.innerWidth / 2, window.innerHeight / 2, "You are my brightest star! 💖");
         }, 2000);
     }
 

@@ -3,152 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starry Night Love Letter</title>
+    <title>Love Map Adventure</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
         }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #mapContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/3/39/BlankMap-World6.svg') no-repeat center;
+            background-size: cover;
+            transition: transform 2s ease-in-out;
         }
-
-        .message {
+        .heart {
             position: absolute;
-            color: white;
-            font-size: 20px;
-            text-shadow: 2px 2px 5px black;
-            opacity: 0;
-            transition: opacity 1s, transform 2s;
-        }
-
-        .shooting-star {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
+            width: 20px;
+            height: 20px;
+            background-color: red;
             border-radius: 50%;
-            box-shadow: 0 0 10px white;
-            opacity: 0;
-            animation: shooting 2s linear forwards;
+            box-shadow: 0 0 10px red;
+            cursor: pointer;
+            animation: glow 1s infinite alternate;
         }
-
-        @keyframes shooting {
-            0% { opacity: 1; transform: translate(-50px, -50px); }
-            100% { opacity: 0; transform: translate(100px, 100px); }
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px red; }
+            100% { box-shadow: 0 0 15px red; }
+        }
+        #messageBox {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            display: none;
+        }
+        #finalMessage {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: white;
+            background: rgba(255, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<canvas id="starCanvas"></canvas>
+<div id="mapContainer"></div>
+<div id="messageBox"></div>
+<div id="finalMessage">Our love is a journey, and all roads lead to you, my Niha! ❤️</div>
 
 <script>
-    const canvas = document.getElementById("starCanvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let stars = [];
-    let messages = [
-        "Hey love,",
-        "You make my nights brighter than the stars.",
-        "Every moment with you feels magical.",
-        "I love you more than words can say.",
-        "You are my heart, my soul, my everything.",
-        "Forever and always, I'm yours."
+    const messages = [
+        "Our love travels across the world...",
+        "Every moment with you is an adventure...",
+        "No distance can keep us apart...",
+        "Like a map, love always finds its way...",
+        "Every heartbeat brings me closer to you...",
+        "Kerala, here we come! ❤️"
     ];
-    let revealedMessages = 0;
 
-    function createStars() {
-        for (let i = 0; i < 50; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                message: messages[i % messages.length],
-                clicked: false
-            });
-        }
-    }
+    const hearts = [
+        { x: "20%", y: "30%" },
+        { x: "50%", y: "20%" },
+        { x: "70%", y: "40%" },
+        { x: "30%", y: "70%" },
+        { x: "60%", y: "80%" },
+        { x: "80%", y: "60%" }
+    ];
 
-    function drawStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
-            if (!star.clicked) {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, 1)`;
-                ctx.fill();
+    let clickedCount = 0;
+    const map = document.getElementById("mapContainer");
+    const messageBox = document.getElementById("messageBox");
+    const finalMessage = document.getElementById("finalMessage");
+
+    hearts.forEach((pos, index) => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = pos.x;
+        heart.style.top = pos.y;
+        heart.addEventListener("click", function() {
+            heart.style.display = "none";
+            messageBox.innerText = messages[clickedCount];
+            messageBox.style.display = "block";
+            setTimeout(() => messageBox.style.display = "none", 2000);
+            clickedCount++;
+            
+            if (clickedCount === hearts.length) {
+                map.style.transform = "scale(2) translate(-30%, 20%)";
+                setTimeout(() => finalMessage.style.display = "block", 3000);
             }
         });
-    }
-
-    function handleClick(event) {
-        let x = event.clientX;
-        let y = event.clientY;
-
-        for (let i = 0; i < stars.length; i++) {
-            let star = stars[i];
-            let distance = Math.sqrt((star.x - x) ** 2 + (star.y - y) ** 2);
-            if (distance < 10 && !star.clicked) {
-                star.clicked = true;
-                drawStars();
-                showMessage(star.x, star.y, star.message);
-
-                revealedMessages++;
-                if (revealedMessages === stars.length) {
-                    setTimeout(showShootingStar, 3000);
-                }
-
-                break;
-            }
-        }
-    }
-
-    function showMessage(x, y, text) {
-        let msg = document.createElement("div");
-        msg.className = "message";
-        msg.innerText = text;
-        msg.style.left = x + "px";
-        msg.style.top = y + "px";
-        document.body.appendChild(msg);
-
-        setTimeout(() => {
-            msg.style.opacity = 1;
-            msg.style.transform = "translateY(-40px)";
-        }, 100);
-
-        setTimeout(() => {
-            msg.style.opacity = 0;
-            setTimeout(() => msg.remove(), 2000);
-        }, 3000);
-    }
-
-    function showShootingStar() {
-        let star = document.createElement("div");
-        star.className = "shooting-star";
-        star.style.top = Math.random() * window.innerHeight + "px";
-        star.style.left = Math.random() * window.innerWidth + "px";
-        document.body.appendChild(star);
-
-        setTimeout(() => {
-            star.remove();
-            showMessage(window.innerWidth / 2, window.innerHeight / 2, "You are my brightest star! 💖");
-        }, 2000);
-    }
-
-    canvas.addEventListener("click", handleClick);
-
-    createStars();
-    drawStars();
+        map.appendChild(heart);
+    });
 </script>
 
 </body>

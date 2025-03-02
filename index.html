@@ -3,147 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Surprise</title>
+    <title>Love Sparkle Surprise</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
+            margin: 0;
             overflow: hidden;
+            background-color: black;
         }
-
-        #question {
-            font-size: 24px;
-            margin-top: 50px;
-        }
-
-        #answerBox {
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 20px;
-        }
-
-        #balloon-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .balloon {
+        #container {
             position: absolute;
-            bottom: -100px;
-            width: 40px;
-            height: 50px;
-            background: red;
-            border-radius: 50%;
-            animation: floatUp 4s linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
-
-        #photo-container {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            display: none;
-            align-items: center;
+            display: flex;
             justify-content: center;
-            background: black;
-            animation: fadeIn 2s forwards;
-        }
-
-        #photo {
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
+            align-items: center;
             opacity: 0;
-            animation: fadeIn 2s forwards;
+            transition: opacity 2s ease-in-out;
         }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+        #surpriseImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-
         .sparkle {
             position: absolute;
             width: 10px;
             height: 10px;
-            background: white;
+            background-color: gold;
             border-radius: 50%;
             opacity: 0;
-            animation: sparkleAnim 1.5s infinite;
+            animation: sparkle-animation 2s linear infinite;
         }
-
-        @keyframes sparkleAnim {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.5); }
-            100% { opacity: 0; transform: scale(0.5); }
+        @keyframes sparkle-animation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1 id="question">Who is the most beautiful girl in the world?</h1>
-    <input type="text" id="answerBox" placeholder="Type your answer...">
-    <button onclick="checkAnswer()">Submit</button>
+<div id="container">
+    <img id="surpriseImage" src="https://raw.githubusercontent.com/BIWA0/New-surprise/main/IMG_20250211_155406_160.jpg" alt="Surprise Image">
+</div>
 
-    <div id="balloon-container"></div>
-    
-    <div id="photo-container">
-        <img id="photo" src="YOUR_IMAGE_URL_HERE" alt="Surprise Image">
-    </div>
-
-    <script>
-        function checkAnswer() {
-            const answer = document.getElementById('answerBox').value.toLowerCase();
-            if (answer === "niha") {
-                showBalloons();
-                setTimeout(showPhoto, 4000);
-            }
+<script>
+    function createSparkles() {
+        for (let i = 0; i < 50; i++) {
+            let sparkle = document.createElement("div");
+            sparkle.className = "sparkle";
+            document.body.appendChild(sparkle);
+            sparkle.style.left = Math.random() * window.innerWidth + "px";
+            sparkle.style.top = Math.random() * window.innerHeight + "px";
+            sparkle.style.animationDelay = Math.random() * 2 + "s";
+            setTimeout(() => sparkle.remove(), 2000);
         }
+    }
 
-        function showBalloons() {
-            document.getElementById("question").style.display = "none";
-            document.getElementById("answerBox").style.display = "none";
+    function showSurprise() {
+        document.getElementById("container").style.opacity = "1";
+        setInterval(createSparkles, 500);
+    }
 
-            for (let i = 0; i < 30; i++) {
-                let balloon = document.createElement("div");
-                balloon.className = "balloon";
-                balloon.style.left = Math.random() * 100 + "vw";
-                balloon.style.animationDuration = (Math.random() * 2 + 3) + "s";
-                balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
-                document.getElementById("balloon-container").appendChild(balloon);
-            }
-
-            setTimeout(() => {
-                document.getElementById("balloon-container").innerHTML = "";
-            }, 4000);
-        }
-
-        function showPhoto() {
-            document.getElementById("photo-container").style.display = "flex";
-            createSparkles();
-        }
-
-        function createSparkles() {
-            for (let i = 0; i < 20; i++) {
-                let sparkle = document.createElement("div");
-                sparkle.className = "sparkle";
-                sparkle.style.left = Math.random() * 100 + "vw";
-                sparkle.style.top = Math.random() * 100 + "vh";
-                sparkle.style.animationDelay = Math.random() * 2 + "s";
-                document.body.appendChild(sparkle);
-            }
-        }
-    </script>
+    // Delay to allow sparkles first, then fade in the image
+    setTimeout(showSurprise, 3000);
+</script>
 
 </body>
 </html>

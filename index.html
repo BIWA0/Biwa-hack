@@ -8,55 +8,73 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
+            padding: 0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
         }
         #map {
-            width: 100vw;
-            height: 100vh;
+            height: 90vh;
+            width: 100%;
         }
         #messageBox {
-            display: none;
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            text-align: center;
+            font-size: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-<div id="map"></div>
-<div id="messageBox">💖 "No matter where we are, my heart always finds its way to you!" 💖</div>
+    <h2>Love Map Adventure</h2>
+    <div id="map"></div>
+    <div id="messageBox">Click on the markers to reveal the messages!</div>
 
-<script>
-    function initMap() {
-        var location = { lat: 10.8505, lng: 76.2711 }; // Kerala coordinates
-        var map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 7,
-            center: location,
-        });
+    <script>
+        function initMap() {
+            const locations = [
+                { position: { lat: 8.5241, lng: 76.9366 }, message: "Where our journey started 💖" }, // Example location
+                { position: { lat: 9.9312, lng: 76.2673 }, message: "A place filled with memories ✨" },
+                { position: { lat: 10.8505, lng: 76.2711 }, message: "The city of our dreams 💫" },
+                { position: { lat: 12.9716, lng: 77.5946 }, message: "The place I think of you the most 💕" }
+            ];
 
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            title: "Click me!",
-        });
+            const finalLocation = { lat: 13.7490, lng: 79.7037 }; // Srikalahasti
+            let clickedMarkers = 0;
 
-        marker.addListener("click", function () {
-            var messageBox = document.getElementById("messageBox");
-            messageBox.style.display = "block";
-            setTimeout(() => { messageBox.style.display = "none"; }, 5000);
-        });
-    }
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 10, lng: 77 },
+                zoom: 6,
+                styles: [{ elementType: "labels", stylers: [{ visibility: "off" }] }]
+            });
 
-    window.onload = initMap;
-</script>
+            locations.forEach((loc, index) => {
+                const marker = new google.maps.Marker({
+                    position: loc.position,
+                    map: map,
+                    animation: google.maps.Animation.DROP
+                });
+
+                marker.addListener("click", function () {
+                    document.getElementById("messageBox").innerText = loc.message;
+                    marker.setMap(null); // Hide the marker after clicking
+                    clickedMarkers++;
+
+                    if (clickedMarkers === locations.length) {
+                        setTimeout(() => {
+                            map.setZoom(10);
+                            map.setCenter(finalLocation);
+
+                            setTimeout(() => {
+                                document.getElementById("messageBox").innerText = "Missing you from here ❤️";
+                            }, 2000);
+                        }, 1000);
+                    }
+                });
+            });
+        }
+        window.onload = initMap;
+    </script>
 
 </body>
 </html>

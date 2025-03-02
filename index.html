@@ -4,76 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Map Adventure</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
         }
         #map {
             height: 90vh;
             width: 100%;
         }
-        #messageBox {
-            font-size: 20px;
-            margin-top: 10px;
+        h1 {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            margin: 0;
         }
     </style>
 </head>
 <body>
 
-    <h2>Love Map Adventure</h2>
+    <h1>Love Map Adventure</h1>
     <div id="map"></div>
-    <div id="messageBox">Click on the markers to reveal the messages!</div>
 
     <script>
-        function initMap() {
-            const locations = [
-                { position: { lat: 8.5241, lng: 76.9366 }, message: "Where our journey started 💖" }, // Example location
-                { position: { lat: 9.9312, lng: 76.2673 }, message: "A place filled with memories ✨" },
-                { position: { lat: 10.8505, lng: 76.2711 }, message: "The city of our dreams 💫" },
-                { position: { lat: 12.9716, lng: 77.5946 }, message: "The place I think of you the most 💕" }
-            ];
+        // Initialize the map, centered on Kerala
+        var map = L.map('map').setView([10.8505, 76.2711], 7);
 
-            const finalLocation = { lat: 13.7490, lng: 79.7037 }; // Srikalahasti
-            let clickedMarkers = 0;
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-            const map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 10, lng: 77 },
-                zoom: 6,
-                styles: [{ elementType: "labels", stylers: [{ visibility: "off" }] }]
+        // Locations & Messages
+        var locations = [
+            { coords: [10.8505, 76.2711], message: "Every place reminds me of you! 💕" },
+            { coords: [9.9312, 76.2673], message: "Our love is everywhere in Kerala! 🌍" },
+            { coords: [8.5241, 76.9366], message: "I wish we could explore this place together! 💑" }
+        ];
+
+        var clickedMarkers = 0; // Track clicked markers
+        var totalMarkers = locations.length;
+
+        // Add markers
+        locations.forEach((location) => {
+            var marker = L.marker(location.coords).addTo(map);
+            marker.on('click', function() {
+                alert(location.message);
+                clickedMarkers++;
+
+                // If all markers are clicked, show final surprise
+                if (clickedMarkers === totalMarkers) {
+                    setTimeout(() => {
+                        map.setView([13.7490, 79.7037], 12); // Zoom into Srikalahasti
+                        alert("Missing you from here ❤️");
+                    }, 1000);
+                }
             });
+        });
 
-            locations.forEach((loc, index) => {
-                const marker = new google.maps.Marker({
-                    position: loc.position,
-                    map: map,
-                    animation: google.maps.Animation.DROP
-                });
-
-                marker.addListener("click", function () {
-                    document.getElementById("messageBox").innerText = loc.message;
-                    marker.setMap(null); // Hide the marker after clicking
-                    clickedMarkers++;
-
-                    if (clickedMarkers === locations.length) {
-                        setTimeout(() => {
-                            map.setZoom(10);
-                            map.setCenter(finalLocation);
-
-                            setTimeout(() => {
-                                document.getElementById("messageBox").innerText = "Missing you from here ❤️";
-                            }, 2000);
-                        }, 1000);
-                    }
-                });
-            });
-        }
-        window.onload = initMap;
     </script>
 
 </body>

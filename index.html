@@ -7,75 +7,130 @@
     <style>
         body {
             margin: 0;
-            background-color: black;
             overflow: hidden;
-            position: relative;
+            background-color: black;
+            color: black;
+            font-family: Arial, sans-serif;
         }
 
-        /* Container for stars */
-        .star {
+        canvas {
             position: absolute;
-            background-color: white;
-            width: 2px;
-            height: 2px;
-            border-radius: 50%;
-            animation: twinkle 2s infinite alternate;
+            top: 0;
+            left: 0;
         }
 
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Love Letter Text */
-        #loveLetter {
+        #loveMessage {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
             font-size: 24px;
             text-align: center;
-            font-family: 'Arial', sans-serif;
+            display: none;
             opacity: 0;
-            animation: fadeIn 3s forwards 2s;
+            transition: opacity 2s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .shooting-star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            opacity: 0;
+            animation: shooting 2s linear forwards;
+        }
+
+        @keyframes shooting {
+            0% { opacity: 1; transform: translate(-50px, -50px); }
+            100% { opacity: 0; transform: translate(100px, 100px); }
         }
     </style>
 </head>
 <body>
 
-<!-- Love Letter -->
-<div id="loveLetter">My love for you shines brighter than all the stars in the sky. ✨</div>
+<canvas id="starCanvas"></canvas>
+<div id="loveMessage"></div>
 
 <script>
-    function createStar() {
+    const canvas = document.getElementById("starCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let stars = [];
+    let messages = [
+        "Hey love,",
+        "Every moment with you is magic.",
+        "You light up my world like these stars.",
+        "I love you more than words can say.",
+        "Forever and always, my heart is yours."
+    ];
+    let revealedMessages = 0;
+
+    function createStars() {
+        for (let i = 0; i < 50; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                twinkle: Math.random() * 2
+            });
+        }
+    }
+
+    function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(drawStars);
+    }
+
+    function handleClick(event) {
+        let x = event.clientX;
+        let y = event.clientY;
+
+        stars.forEach((star, index) => {
+            let distance = Math.sqrt((star.x - x) ** 2 + (star.y - y) ** 2);
+            if (distance < 10) {
+                stars.splice(index, 1);
+                if (revealedMessages < messages.length) {
+                    document.getElementById("loveMessage").innerText = messages[revealedMessages];
+                    document.getElementById("loveMessage").style.display = "block";
+                    document.getElementById("loveMessage").style.opacity = 1;
+                    revealedMessages++;
+                }
+
+                if (revealedMessages === messages.length) {
+                    setTimeout(showShootingStar, 2000);
+                }
+            }
+        });
+    }
+
+    function showShootingStar() {
         let star = document.createElement("div");
-        star.className = "star";
+        star.className = "shooting-star";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.left = Math.random() * window.innerWidth + "px";
         document.body.appendChild(star);
-
-        // Random position
-        let x = Math.random() * window.innerWidth;
-        let y = Math.random() * window.innerHeight;
-        star.style.left = `${x}px`;
-        star.style.top = `${y}px`;
-
-        // Random twinkle speed
-        let duration = Math.random() * 2 + 1;
-        star.style.animationDuration = `${duration}s`;
-
-        // Remove old stars after some time to refresh the sky
-        setTimeout(() => { star.remove(); }, 5000);
+        
+        setTimeout(() => {
+            star.remove();
+            document.getElementById("loveMessage").innerText = "You are my brightest star, always.";
+        }, 2000);
     }
 
-    // Generate multiple stars
-    for (let i = 0; i < 150; i++) {
-        createStar();
-    }
+    canvas.addEventListener("click", handleClick);
+
+    createStars();
+    drawStars();
 </script>
 
 </body>

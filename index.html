@@ -3,87 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Map Adventure</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title>Surprise for Niha</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            height: 90vh;
-            width: 100%;
-        }
-        h1 {
             background-color: black;
-            color: white;
-            padding: 10px;
-            margin: 0;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            text-align: center;
+            overflow: hidden;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #text {
+            white-space: pre-wrap;
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            width: fit-content;
+            font-weight: bold;
+        }
+        #first-image-container img, #final-image-container img {
+            width: 100%;
+            max-width: 1000px;
+        }
+        #first-image-container, #final-image-container {
+            display: none;
+            transition: opacity 1s ease-in-out;
+        }
+        #lighting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            display: none;
+            animation: lightningFlash 0.2s infinite alternate;
+        }
+        @keyframes lightningFlash {
+            0% { background: rgba(255, 255, 255, 0.6); }
+            100% { background: rgba(255, 255, 255, 0.1); }
+        }
+        .countdown {
+            font-size: 50px;
+            font-weight: bold;
+            color: red;
         }
     </style>
 </head>
 <body>
-
-    <h1>Love Map Adventure</h1>
-    <div id="map"></div>
+    <div id="lighting"></div>
+    <div id="container">
+        <div id="text"></div>
+        <div id="first-image-container">
+            <img src="297bc2a92e0b878fef4f34e73220a5d76f60d9cd_m.jpeg" alt="First Image">
+        </div>
+        <div id="countdown-container" style="display: none;">
+            <span class="countdown">3</span>
+            <span class="countdown">2</span>
+            <span class="countdown">1</span>
+        </div>
+        <div id="final-image-container">
+            <img src="niha-surprise.jpg" alt="Niha's Surprise">
+            <p>Now it's perfect</p>
+        </div>
+    </div>
 
     <script>
-        // Initialize the map, centered on Kerala
-        var map = L.map('map').setView([10.8505, 76.2711], 7);
+        const textElement = document.getElementById("text");
+        const firstImageContainer = document.getElementById("first-image-container");
+        const finalImageContainer = document.getElementById("final-image-container");
+        const lighting = document.getElementById("lighting");
+        const countdownContainer = document.getElementById("countdown-container");
+        const countdownNumbers = countdownContainer.querySelectorAll(".countdown");
 
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Locations & Messages
-        var locations = [
-            { coords: [10.8505, 76.2711], message: "Every place reminds me of you! 💕" },
-            { coords: [9.9312, 76.2673], message: "Our love is everywhere in Kerala! 🌍" },
-            { coords: [8.5241, 76.9366], message: "I wish we could explore this place together! 💑" }
+        const messages = [
+            "Hey Niha, want to see something?",
+            "",
+            "See, it's us!",
+            "", 
+            "But something looks off...",
+            "They don’t look like us...",
+            "",
+            "Let’s get our first pic, baby!",
+            "Clearing disturbances...",
+            "Activating love from the universe...",
+            "Getting energy..."
         ];
 
-        var clickedMarkers = 0; // Track clicked markers
-        var totalMarkers = locations.length;
+        let index = 0;
+        let charIndex = 0;
+        let deleting = false;
 
-        // Add markers
-        locations.forEach((location) => {
-            var marker = L.marker(location.coords).addTo(map);
-            marker.on('click', function() {
-                alert(location.message);
-                clickedMarkers++;
+        function showLightingEffect(duration = 2000) {
+            lighting.style.display = "block";
+            setTimeout(() => {
+                lighting.style.display = "none";
+            }, duration);
+        }
 
-                // If all markers are clicked, show first message
-                if (clickedMarkers === totalMarkers) {
+        function startCountdownAndShowFinalImage() {
+            countdownContainer.style.display = "block";
+            let count = 0;
+            function showNextNumber() {
+                if (count < countdownNumbers.length) {
+                    countdownNumbers[count].style.opacity = 1;
                     setTimeout(() => {
-                        // Show the intermediate message first
-                        alert("In this whole world, one person is missing you a lot, Niha. Let me take you there!");
-
-                        // Then zoom out to show the whole world
-                        map.flyTo([0, 0], 1, {
-                            duration: 3, // Zoom out slowly over 3 seconds
-                            easeLinearity: 0.5
-                        });
-
-                        // After zooming out, zoom into Srikalahasti slowly
-                        setTimeout(() => {
-                            map.flyTo([13.7490, 79.7037], 12, {
-                                duration: 5, // Smooth zoom-in over 5 seconds
-                                easeLinearity: 0.5
-                            });
-                            setTimeout(() => {
-                                alert("Bhagii is missing you from here ❤️"); // Final message after zoom-in
-                            }, 5000); // Message after the zoom-in
-                        }, 3000); // Wait for 3 seconds before zooming in
-                    }, 1000); // Wait 1 second after the last marker is clicked
+                        countdownNumbers[count].style.opacity = 0;
+                        count++;
+                        showNextNumber();
+                    }, 1000);
+                } else {
+                    countdownContainer.style.display = "none";
+                    showLightingEffect(3000);
+                    setTimeout(() => {
+                        finalImageContainer.style.display = "block";
+                        finalImageContainer.style.opacity = 1;
+                    }, 1500);
                 }
-            });
-        });
+            }
+            showNextNumber();
+        }
 
+        function typeEffect() {
+            if (index < messages.length) {
+                if (!deleting) {
+                    textElement.textContent = messages[index].substring(0, charIndex++);
+                    if (charIndex > messages[index].length) {
+                        deleting = true;
+                        if (index === 2) { 
+                            firstImageContainer.style.display = "block";
+                            firstImageContainer.style.opacity = 1;
+                            showLightingEffect();
+                            setTimeout(() => {
+                                firstImageContainer.style.display = "none";
+                            }, 3000);
+                        }
+                        setTimeout(typeEffect, 1000);
+                    } else {
+                        setTimeout(typeEffect, 100);
+                    }
+                } else {
+                    textElement.textContent = messages[index].substring(0, charIndex--);
+                    if (charIndex < 0) {
+                        deleting = false;
+                        index++;
+                        setTimeout(typeEffect, 500);
+                    } else {
+                        setTimeout(typeEffect, 50);
+                    }
+                }
+            } else {
+                setTimeout(() => {
+                    startCountdownAndShowFinalImage();
+                }, 1000);
+            }
+        }
+
+        typeEffect();
     </script>
-
 </body>
 </html>

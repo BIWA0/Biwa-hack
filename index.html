@@ -75,7 +75,7 @@
             "Hey Niha, want to see something?",
             "",
             "See, it's us!",
-            "", // This is where the first image will appear
+            "", // First image appears here
             "But something looks off...",
             "They don’t look like us...",
             "",
@@ -110,6 +110,10 @@
                         if (index === 2) { // After "See, it's us!", show first image
                             firstImageContainer.style.display = "block";
                             firstImageContainer.style.opacity = 1;
+                            setTimeout(() => {
+                                firstImageContainer.style.opacity = 0;
+                                setTimeout(() => { firstImageContainer.style.display = "none"; }, 1000);
+                            }, 3000);
                         }
 
                         if (index === 14) { // After "1" (last countdown), show lightning

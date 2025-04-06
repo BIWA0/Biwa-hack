@@ -8,20 +8,22 @@
       margin: 0;
       overflow: hidden;
       font-family: 'Segoe UI', sans-serif;
+      background: #000;
     }
     .scene {
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: url('https://i.imgur.com/3U5xDZT.jpg') no-repeat center center/cover; /* Forest with cabin */
+      background: url('https://i.imgur.com/vvMljJZ.jpg') no-repeat center center/cover; /* Working evening forest scene */
     }
     .river {
       position: absolute;
       bottom: 0;
       width: 100%;
       height: 35%;
-      background: url('https://i.imgur.com/2vBdZDG.gif') repeat-x center/cover; /* Flowing river animation */
+      background: url('https://i.imgur.com/ZKQFgaY.gif') repeat-x center/cover; /* Working animated river gif */
       opacity: 0.9;
+      pointer-events: none;
     }
     .clickable {
       position: absolute;
@@ -51,10 +53,24 @@
       font-size: 1.2rem;
       display: none;
     }
+    .niha {
+      position: absolute;
+      bottom: 35%;
+      left: -20%;
+      width: 120px;
+      height: auto;
+      opacity: 0.95;
+      animation: walkIn 8s ease-in-out forwards;
+    }
+    @keyframes walkIn {
+      0% { left: -20%; }
+      100% { left: 40%; }
+    }
   </style>
 </head>
 <body>
   <div class="scene">
+    <img src="/mnt/data/A_digital_painting_in_a_semi-realistic_style_depic.png" alt="Niha" class="niha">
     <div class="river"></div>
     <div class="clickable cabin" onclick="showMessage('Yes… he was definitely here, Niha.')"></div>
     <div class="clickable tree" onclick="showMessage('The forest whispers your name...')"></div>

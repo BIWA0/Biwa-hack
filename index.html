@@ -2,93 +2,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Niha's Fantasy Love Quest</title>
+  <title>River of Memories</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
       overflow: hidden;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://i.imgur.com/3U5xDZT.jpg') no-repeat center center/cover; /* Forest with cabin */
+    }
+    .river {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 35%;
+      background: url('https://i.imgur.com/2vBdZDG.gif') repeat-x center/cover; /* Flowing river animation */
+      opacity: 0.9;
+    }
+    .clickable {
+      position: absolute;
+      cursor: pointer;
+    }
+    .cabin {
+      top: 50%;
+      left: 30%;
+      width: 100px;
+      height: 120px;
+    }
+    .tree {
+      top: 30%;
+      left: 70%;
+      width: 80px;
+      height: 150px;
+    }
+    .message-box {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
       color: white;
-      transition: background-image 1s ease-in-out;
-    }#scene {
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-.whisper {
-  opacity: 0;
-  animation: whisper 3s ease-in-out forwards;
-}
-
-@keyframes whisper {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.portal {
-  width: 200px;
-  height: 200px;
-  background: url('https://i.ibb.co/pKktmRz/portal-rune.png') no-repeat center center / contain;
-  cursor: pointer;
-  animation: pulse 2s infinite;
-  margin-top: 20px;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.1); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div id="scene">
-    <h1 class="whisper" style="animation-delay: 1s;">Welcome to Niha's Fantasy Love Quest</h1>
-    <p class="whisper" style="animation-delay: 2s;">A journey across stars, forests, and beyond...</p>
-    <div id="portal" class="portal" style="display: none;"></div>
+  <div class="scene">
+    <div class="river"></div>
+    <div class="clickable cabin" onclick="showMessage('Yes… he was definitely here, Niha.')"></div>
+    <div class="clickable tree" onclick="showMessage('The forest whispers your name...')"></div>
+    <div class="clickable river" onclick="showMessage('The river flows with memories...')" style="bottom: 5%; left: 40%; width: 100px; height: 50px;"></div>
+    <div class="message-box" id="messageBox"></div>
   </div>  <script>
-    let scene = document.getElementById('scene');
-    let portal = document.getElementById('portal');
-    let step = 0;
-
-    const backgrounds = [
-      "https://i.ibb.co/fqxR6f9/starry-sky.jpg",
-      "https://i.ibb.co/5FrcGn3/forest-glow.jpg",
-      "https://i.ibb.co/8msMZqp/castle-outskirts.jpg"
-    ];
-
-    function loadScene(index) {
-      scene.style.backgroundImage = `url('${backgrounds[index]}')`;
-    }
-
-    function showPortal() {
-      portal.style.display = 'block';
-    }
-
-    window.onload = () => {
-      loadScene(step);
+    const msgBox = document.getElementById('messageBox');
+    function showMessage(text) {
+      msgBox.innerText = text;
+      msgBox.style.display = 'block';
       setTimeout(() => {
-        step++;
-        loadScene(step);
-        showPortal();
-      }, 6000); // switch to forest
-    };
-
-    portal.onclick = () => {
-      portal.style.display = 'none';
-      step++;
-      loadScene(step); // switch to castle
-      scene.innerHTML = `<h1 class='whisper'>You’ve reached the Enchanted Castle...</h1><p class='whisper' style='animation-delay: 2s;'>Your destiny awaits, Niha.</p>`;
-    };
+        msgBox.style.display = 'none';
+      }, 4000);
+    }
   </script></body>
 </html>

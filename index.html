@@ -1,96 +1,94 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Niha's Fantasy Love Quest</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
       overflow: hidden;
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-      background-color: black;
-    }
-    .scene {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-size: cover;
-      background-position: center;
-      transition: opacity 2s ease-in-out;
-    }
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    #scene1 {
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1950&q=80'); /* Starry sky */
-      animation: stars 10s linear infinite;
-    }
-    #scene2 {
-      background-image: url('https://images.unsplash.com/photo-1508612761958-e9319f1da2f4?auto=format&fit=crop&w=1950&q=80'); /* Forest glowing */
-    }
-    #scene3 {
-      background-image: url('https://images.unsplash.com/photo-1589792922228-0f5c4534d4a4?auto=format&fit=crop&w=1950&q=80'); /* Castle */
-    }
-    .whisper {
-      position: absolute;
-      bottom: 10%;
-      text-align: center;
-      font-size: 1.5rem;
-      animation: whisper 6s infinite;
-    }
-    @keyframes whisper {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
-    .portal {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0,255,255,0.4), rgba(0,0,0,0.7));
-      border: 5px solid cyan;
-      border-radius: 50%;
-      box-shadow: 0 0 30px cyan;
-      animation: spin 6s linear infinite;
-      cursor: pointer;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+      font-family: 'Georgia', serif;
+    }.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 1s ease-in-out;
+}
+
+#scene1 {
+  background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1470&q=80'); /* starry sky */
+}
+
+#scene2 {
+  background-image: url('https://images.unsplash.com/photo-1604079628044-9439ed245f41?auto=format&fit=crop&w=1470&q=80'); /* glowing forest */
+  opacity: 0;
+  pointer-events: none;
+}
+
+#scene3 {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/8e/Neuschwanstein_Castle_LOC_print.jpg'); /* castle */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.whisper {
+  color: white;
+  font-size: 2em;
+  animation: fadeInOut 3s infinite;
+  text-shadow: 0 0 10px white;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.portal {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,255,255,0.5), transparent);
+  border: 5px solid cyan;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 20px cyan; }
+  50% { transform: scale(1.1); box-shadow: 0 0 40px cyan; }
+}
+
   </style>
 </head>
 <body>
   <div id="scene1" class="scene">
-    <div class="whisper">"Somewhere in the stars, your story begins..."</div>
-  </div>  <div id="scene2" class="scene hidden">
-    <div class="whisper">"The forest whispers your name, Niha..."</div>
-    <div id="portal" class="portal"></div>
-  </div>  <div id="scene3" class="scene hidden">
-    <div class="whisper">"The path to the castle awaits..."</div>
+    <div class="whisper">"Follow the whispers..."</div>
+  </div>  <div id="scene2" class="scene">
+    <div class="portal" onclick="enterPortal()"></div>
+  </div>  <div id="scene3" class="scene">
+    <div class="whisper">The Castle Awaits...</div>
   </div>  <script>
-    let currentScene = 1;
-    const scene1 = document.getElementById('scene1');
-    const scene2 = document.getElementById('scene2');
-    const scene3 = document.getElementById('scene3');
-    const portal = document.getElementById('portal');
-
     setTimeout(() => {
-      scene1.classList.add('hidden');
-      scene2.classList.remove('hidden');
-    }, 5000);
+      document.getElementById("scene1").style.opacity = 0;
+      document.getElementById("scene1").style.pointerEvents = 'none';
+      document.getElementById("scene2").style.opacity = 1;
+      document.getElementById("scene2").style.pointerEvents = 'auto';
+    }, 4000);
 
-    portal.addEventListener('click', () => {
-      portal.style.display = 'none';
-      scene2.classList.add('hidden');
-      scene3.classList.remove('hidden');
-    });
+    function enterPortal() {
+      document.getElementById("scene2").style.opacity = 0;
+      document.getElementById("scene2").style.pointerEvents = 'none';
+      document.getElementById("scene3").style.opacity = 1;
+      document.getElementById("scene3").style.pointerEvents = 'auto';
+    }
   </script></body>
 </html>

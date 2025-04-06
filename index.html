@@ -1,6 +1,7 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Niha's Fantasy Love Quest</title>
   <style>
     html, body {
@@ -8,87 +9,86 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
-      font-family: 'Georgia', serif;
-    }.scene {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      transition: background-image 1s ease-in-out;
+    }#scene {
   height: 100%;
+  width: 100%;
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  transition: opacity 1s ease-in-out;
-}
-
-#scene1 {
-  background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1470&q=80'); /* starry sky */
-}
-
-#scene2 {
-  background-image: url('https://images.unsplash.com/photo-1604079628044-9439ed245f41?auto=format&fit=crop&w=1470&q=80'); /* glowing forest */
-  opacity: 0;
-  pointer-events: none;
-}
-
-#scene3 {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/8e/Neuschwanstein_Castle_LOC_print.jpg'); /* castle */
-  opacity: 0;
-  pointer-events: none;
+  text-align: center;
 }
 
 .whisper {
-  color: white;
-  font-size: 2em;
-  animation: fadeInOut 3s infinite;
-  text-shadow: 0 0 10px white;
+  opacity: 0;
+  animation: whisper 3s ease-in-out forwards;
 }
 
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+@keyframes whisper {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .portal {
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(0,255,255,0.5), transparent);
-  border: 5px solid cyan;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+  background: url('https://i.ibb.co/pKktmRz/portal-rune.png') no-repeat center center / contain;
   cursor: pointer;
+  animation: pulse 2s infinite;
+  margin-top: 20px;
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 20px cyan; }
-  50% { transform: scale(1.1); box-shadow: 0 0 40px cyan; }
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
   </style>
 </head>
 <body>
-  <div id="scene1" class="scene">
-    <div class="whisper">"Follow the whispers..."</div>
-  </div>  <div id="scene2" class="scene">
-    <div class="portal" onclick="enterPortal()"></div>
-  </div>  <div id="scene3" class="scene">
-    <div class="whisper">The Castle Awaits...</div>
+  <div id="scene">
+    <h1 class="whisper" style="animation-delay: 1s;">Welcome to Niha's Fantasy Love Quest</h1>
+    <p class="whisper" style="animation-delay: 2s;">A journey across stars, forests, and beyond...</p>
+    <div id="portal" class="portal" style="display: none;"></div>
   </div>  <script>
-    setTimeout(() => {
-      document.getElementById("scene1").style.opacity = 0;
-      document.getElementById("scene1").style.pointerEvents = 'none';
-      document.getElementById("scene2").style.opacity = 1;
-      document.getElementById("scene2").style.pointerEvents = 'auto';
-    }, 4000);
+    let scene = document.getElementById('scene');
+    let portal = document.getElementById('portal');
+    let step = 0;
 
-    function enterPortal() {
-      document.getElementById("scene2").style.opacity = 0;
-      document.getElementById("scene2").style.pointerEvents = 'none';
-      document.getElementById("scene3").style.opacity = 1;
-      document.getElementById("scene3").style.pointerEvents = 'auto';
+    const backgrounds = [
+      "https://i.ibb.co/fqxR6f9/starry-sky.jpg",
+      "https://i.ibb.co/5FrcGn3/forest-glow.jpg",
+      "https://i.ibb.co/8msMZqp/castle-outskirts.jpg"
+    ];
+
+    function loadScene(index) {
+      scene.style.backgroundImage = `url('${backgrounds[index]}')`;
     }
+
+    function showPortal() {
+      portal.style.display = 'block';
+    }
+
+    window.onload = () => {
+      loadScene(step);
+      setTimeout(() => {
+        step++;
+        loadScene(step);
+        showPortal();
+      }, 6000); // switch to forest
+    };
+
+    portal.onclick = () => {
+      portal.style.display = 'none';
+      step++;
+      loadScene(step); // switch to castle
+      scene.innerHTML = `<h1 class='whisper'>You’ve reached the Enchanted Castle...</h1><p class='whisper' style='animation-delay: 2s;'>Your destiny awaits, Niha.</p>`;
+    };
   </script></body>
 </html>

@@ -1,128 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>I Miss Us</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(50, 50, 50, 0.9)), url('https://images.unsplash.com/photo-1465149298680-6b5f818ecf79?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDYwfGdyYWRpZW50fGVufDB8fHx8fDE2ODc4MzY1Nzk&ixlib=rb-1.2.1&q=80&w=1080');
+      background: linear-gradient(rgba(10, 10, 30, 0.9), rgba(10, 10, 30, 0.9)), url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      color: #f0f0f0;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 80px auto;
-      background: rgba(0,0,0,0.6);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
     }
 
     h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
       text-align: center;
-      font-size: 2.5em;
-      margin-bottom: 30px;
-      color: #fff;
+      color: #ffc3ec;
     }
 
-    .message {
-      margin-bottom: 25px;
-      padding: 10px;
-      border-left: 5px solid #999;
-      background: rgba(255,255,255,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .message p {
-      margin: 0;
-      font-size: 1.1em;
-      color: #ddd;
-    }
-
-    .hidden {
-      display: none;
-      color: #aaa;
-      font-size: 0.95em;
-      margin-top: 10px;
-    }
-
-    .toggle {
-      background-color: transparent;
-      border: 1px solid #ccc;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
+    .message-box {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       cursor: pointer;
-      margin-top: 10px;
-      display: block;
       transition: background 0.3s ease;
-      text-align: center;
+      position: relative;
     }
 
-    .toggle:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    .message-box:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .main-line {
+      font-size: 1.3rem;
+      font-weight: bold;
     }
 
     .arrow {
-      font-size: 1.2em;
-      margin-left: 8px;
+      position: absolute;
+      right: 20px;
+      top: 25px;
+      font-size: 1.2rem;
+      transform: rotate(0deg);
+      transition: transform 0.2s;
+    }
+
+    .message-box.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .sub-line {
+      margin-top: 12px;
+      font-size: 1rem;
+      line-height: 1.5;
+      display: none;
+      color: #d0d0d0;
+    }
+
+    .message-box.open .sub-line {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>I Miss Us</h1>
+  <h1>I miss us.</h1>
 
-    <div class="message">
-      <p><strong>Evenings feel so different now...</strong></p>
-      <button class="toggle">Show more <span class="arrow">⬇️</span></button>
-      <div class="hidden">The quiet moments we used to share... now they just feel empty.</div>
-    </div>
+  <div class="message-box">
+    <div class="main-line">“Evenings feel different now…” <span class="arrow">▼</span></div>
+    <div class="sub-line">(Not sad. Just... quieter. Like something warm left the room.)</div>
+  </div>
 
-    <div class="message">
-      <p><strong>You’re out there, living your own story...</strong></p>
-      <button class="toggle">Show more <span class="arrow">⬇️</span></button>
-      <div class="hidden">And I’m so happy you’re growing, but sometimes I just wish I was a bigger part of it.</div>
-    </div>
+  <div class="message-box">
+    <div class="main-line">“You’re out there growing.” <span class="arrow">▼</span></div>
+    <div class="sub-line">(New place. New people. New rhythm. I get it — and honestly, I’m glad.)</div>
+  </div>
 
-    <div class="message">
-      <p><strong>I miss the little ‘us’ we had every two hours...</strong></p>
-      <button class="toggle">Show more <span class="arrow">⬇️</span></button>
-      <div class="hidden">The random updates, the small talk, the daily check-ins... it’s those moments I miss the most.</div>
-    </div>
+  <div class="message-box">
+    <div class="main-line">“I’m proud of you.” <span class="arrow">▼</span></div>
+    <div class="sub-line">(For showing up, for adapting, for choosing your goals, and for getting out of those stress feelings.)</div>
+  </div>
 
-    <div class="message">
-      <p><strong>Now, coffee breaks feel quieter.</strong></p>
-      <button class="toggle">Show more <span class="arrow">⬇️</span></button>
-      <div class="hidden">I sip my coffee, and I think about how much I miss hearing from you.</div>
-    </div>
+  <div class="message-box">
+    <div class="main-line">“But I miss the ‘every 2-hour’ you…” <span class="arrow">▼</span></div>
+    <div class="sub-line">(The one who sent random messages. Shared laughs. Checked in. Even for a minute.)</div>
+  </div>
 
-    <div class="message">
-      <p><strong>I’ll wait for you, no matter how quiet things get...</strong></p>
-      <button class="toggle">Show more <span class="arrow">⬇️</span></button>
-      <div class="hidden">You’ve been the one person I’ve talked to for so long, and even though it’s quieter now, I’m still here, quietly loving you.</div>
-    </div>
+  <div class="message-box">
+    <div class="main-line">“Now coffee breaks are quieter.” <span class="arrow">▼</span></div>
+    <div class="sub-line">(I sip mine alone, reading our past evening conversations, pretending we’re still talking now.)</div>
+  </div>
+
+  <div class="message-box">
+    <div class="main-line">“I’ll wait here. Quiet, but loving.” <span class="arrow">▼</span></div>
+    <div class="sub-line">(I love you. I’ll wait for you. It’s just that… it became quieter around me after almost six months, since you’re the only person I’ve been talking to. But I’m so happy for you, love.)</div>
   </div>
 
   <script>
-    document.querySelectorAll('.toggle').forEach(button => {
-      button.addEventListener('click', () => {
-        const hiddenDiv = button.nextElementSibling;
-        const arrow = button.querySelector('.arrow');
-        if (hiddenDiv.style.display === "block") {
-          hiddenDiv.style.display = "none";
-          arrow.textContent = "⬇️";
-        } else {
-          hiddenDiv.style.display = "block";
-          arrow.textContent = "⬆️";
-        }
+    const boxes = document.querySelectorAll('.message-box');
+    boxes.forEach(box => {
+      box.addEventListener('click', () => {
+        box.classList.toggle('open');
       });
     });
   </script>

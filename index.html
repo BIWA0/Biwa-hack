@@ -6,8 +6,9 @@
   <title>I Miss Us</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1c1c1c);
       background-size: 400% 400%;
       animation: bg 15s ease infinite;
@@ -15,8 +16,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
       padding: 20px;
     }
 
@@ -27,13 +27,12 @@
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.65);
-      padding: 25px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
       border-radius: 20px;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
       max-width: 600px;
       width: 100%;
-      position: relative;
     }
 
     .main-message {
@@ -41,101 +40,138 @@
       text-align: center;
       color: #ff99cc;
       cursor: pointer;
+      margin-bottom: 20px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
 
     .arrow {
-      margin-left: 10px;
       font-size: 1.5rem;
-      transition: transform 0.3s;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .msg-box {
-      margin-top: 20px;
-      display: none;
-    }
-
-    .msg {
-      margin-bottom: 20px;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-
-    .msg.visible {
-      opacity: 1;
-    }
-
-    button {
+    .msg-block {
       margin-top: 15px;
+      border-bottom: 1px solid #555;
+      padding-bottom: 10px;
+    }
+
+    .msg-header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #ffddee;
+    }
+
+    .msg-body {
+      margin-top: 5px;
+      display: none;
+      font-style: italic;
+      color: #cccccc;
+      transition: all 0.3s ease;
+    }
+
+    .visible {
+      display: block !important;
+    }
+
+    #nextBtn {
+      margin-top: 20px;
       padding: 10px 20px;
-      font-size: 1rem;
       background: #ff99cc;
       color: #1c1c1c;
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      font-size: 1rem;
     }
 
-    button:hover {
-      background: #ffaacc;
+    #nextBtn:hover {
+      background: #ffb3d9;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div id="mainMsg" class="main-message" onclick="showNext()">
+      I miss us. <span class="arrow" id="mainArrow">&#9660;</span>
+    </div>
 
-<div class="container">
-  <div id="mainMsg" class="main-message" onclick="toggleBox()">
-    I miss us. <span id="arrow" class="arrow">&#9660;</span>
+    <div id="messages"></div>
+    <button id="nextBtn" onclick="showNext()">Next</button>
   </div>
 
-  <div id="msgBox" class="msg-box">
-    <div id="msg1" class="msg"><strong>“Evenings feel different now…”</strong><br><em>(Not sad. Just... quieter. Like something warm left the room.)</em></div>
-    <div id="msg2" class="msg"><strong>“You’re out there growing.”</strong><br><em>(New place. New people. New rhythm. I get it — and honestly, I’m glad.)</em></div>
-    <div id="msg3" class="msg"><strong>“I’m proud of you.”</strong><br><em>(For showing up, for adapting, for choosing your goals, and for getting out of those stress feelings.)</em></div>
-    <div id="msg4" class="msg"><strong>“But I miss the ‘every 2-hour’ you…”</strong><br><em>(The one who sent random messages. Shared laughs. Checked in. Even for a minute.)</em></div>
-    <div id="msg5" class="msg"><strong>“Now coffee breaks are quieter.”</strong><br><em>(I sip mine alone, reading our past evening conversations, pretending we’re still talking now.)</em></div>
-    <div id="msg6" class="msg"><strong>“I’ll wait here. Quiet, but loving.”</strong><br><em>(I love you. I’ll wait for you. It’s just that… it became quieter around me after almost six months, since you’re the only person I’ve been talking to. But I’m so happy for you, love.)</em></div>
+  <script>
+    const data = [
+      {
+        title: "Evenings feel different now…",
+        detail: "Not sad. Just... quieter. Like something warm left the room."
+      },
+      {
+        title: "You’re out there growing.",
+        detail: "New place. New people. New rhythm. I get it — and honestly, I’m glad."
+      },
+      {
+        title: "I’m proud of you.",
+        detail: "For showing up, for adapting, for choosing your goals, and for getting out of those stress feelings."
+      },
+      {
+        title: "But I miss the ‘every 2-hour’ you…",
+        detail: "The one who sent random messages. Shared laughs. Checked in. Even for a minute."
+      },
+      {
+        title: "Now coffee breaks are quieter.",
+        detail: "I sip mine alone, reading our past evening conversations, pretending we’re still talking now."
+      },
+      {
+        title: "I’ll wait here. Quiet, but loving.",
+        detail: "I love you. I’ll wait for you. It’s just that… it became quieter around me after almost six months, since you’re the only person I’ve been talking to. But I’m so happy for you, love."
+      }
+    ];
 
-    <button id="nextBtn" onclick="showNextMessage()">Next</button>
-  </div>
-</div>
+    let current = 0;
 
-<script>
-  let boxOpen = false;
-  let currentMsg = 0;
-  const totalMsgs = 6;
+    function showNext() {
+      if (current < data.length) {
+        const block = document.createElement("div");
+        block.className = "msg-block";
 
-  function toggleBox() {
-    boxOpen = !boxOpen;
-    const arrow = document.getElementById("arrow");
-    const box = document.getElementById("msgBox");
+        const header = document.createElement("div");
+        header.className = "msg-header";
+        header.innerHTML = `
+          <span>${data[current].title}</span>
+          <span class="arrow">&#9660;</span>
+        `;
 
-    if (boxOpen) {
-      box.style.display = "block";
-      arrow.style.transform = "rotate(180deg)";
-      showNextMessage(); // show the first message on first open
-    } else {
-      box.style.display = "none";
-      arrow.style.transform = "rotate(0deg)";
+        const body = document.createElement("div");
+        body.className = "msg-body";
+        body.innerText = data[current].detail;
+
+        header.onclick = () => {
+          body.classList.toggle("visible");
+          const arrow = header.querySelector(".arrow");
+          if (body.classList.contains("visible")) {
+            arrow.innerHTML = "&#9650;";
+          } else {
+            arrow.innerHTML = "&#9660;";
+          }
+        };
+
+        block.appendChild(header);
+        block.appendChild(body);
+        document.getElementById("messages").appendChild(block);
+        current++;
+
+        if (current === data.length) {
+          document.getElementById("nextBtn").style.display = "none";
+        }
+      }
     }
-  }
-
-  function showNextMessage() {
-    currentMsg++;
-    if (currentMsg <= totalMsgs) {
-      document.getElementById("msg" + currentMsg).classList.add("visible");
-    }
-    if (currentMsg === totalMsgs) {
-      document.getElementById("nextBtn").style.display = "none";
-    }
-  }
-</script>
-
+  </script>
 </body>
 </html>

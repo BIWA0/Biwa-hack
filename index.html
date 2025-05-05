@@ -101,7 +101,7 @@
       “But I miss the ‘every 2-hour’ you…”
       <span class="arrow">›</span>
     </div>
-    <div class="extra">(The one who sent random messages. Shared laughs. Checked in. Even for a minute.)</div>
+    <div class="extra">(The one who sends random messages. Shared laughs with me. Checking my progress and assuring me you are there sitting beside me.)</div>
   </div>
 
   <div class="msg-box">
@@ -124,32 +124,7 @@
     function toggleBox(element) {
       const box = element.parentElement;
       box.classList.toggle('expanded');
-
-      const mainText = element.childNodes[0].textContent.trim();
-      const extraText = box.querySelector('.extra')?.textContent.trim() || '';
-      const fullText = box.classList.contains('expanded') ? `${mainText}. ${extraText}` : mainText;
-
-      speakText(fullText);
     }
-
-    function speakText(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      utterance.volume = 1;
-
-      // Optional: Set a preferred voice
-      const voices = speechSynthesis.getVoices();
-      const preferred = voices.find(voice => voice.name.includes('Google UK English Female') || voice.name.includes('Samantha'));
-      if (preferred) utterance.voice = preferred;
-
-      speechSynthesis.cancel(); // stop any previous speech
-      speechSynthesis.speak(utterance);
-    }
-
-    // Preload voices
-    window.speechSynthesis.onvoiceschanged = () => {};
   </script>
 </body>
 </html>

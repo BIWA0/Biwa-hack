@@ -1,63 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lemon Magic</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Miss Us</title>
   <style>
     body {
       margin: 0;
-      background: #fffbe6;
+      padding: 0;
+      background-color: #0d0d0d;
+      color: #f9c6c6;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       overflow: hidden;
-      font-family: 'Comic Sans MS', cursive;
-    }
+    }.container {
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+  animation: fadeIn 3s ease forwards;
+}
 
-    .lemon {
-      position: absolute;
-      top: -50px;
-      font-size: 40px;
-      animation: fall 5s linear infinite;
-    }
+.line {
+  opacity: 0;
+  font-size: 1.4rem;
+  margin: 20px 0;
+  animation: appear 1s ease forwards;
+}
 
-    @keyframes fall {
-      0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-      100% { transform: translateY(100vh) rotate(360deg); opacity: 1; }
-    }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-    .message {
-      position: absolute;
-      bottom: 30px;
-      width: 100%;
-      text-align: center;
-      font-size: 36px;
-      font-weight: bold;
-      color: #ffcc00;
-      text-shadow: 2px 2px 5px #444;
-      animation: growfade 3s ease-in-out infinite alternate;
-    }
+@keyframes appear {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
-    @keyframes growfade {
-      from { transform: scale(1); opacity: 0.5; }
-      to { transform: scale(1.2); opacity: 1; }
-    }
   </style>
 </head>
 <body>
-
-  <div class="message">Sow them and grow lemon tree</div>
-
-  <script>
-    const lemonCount = 20;
-    for (let i = 0; i < lemonCount; i++) {
-      const lemon = document.createElement("div");
-      lemon.className = "lemon";
-      lemon.innerHTML = "🍋";
-      lemon.style.left = Math.random() * window.innerWidth + "px";
-      lemon.style.animationDuration = (Math.random() * 3 + 3) + "s";
-      lemon.style.fontSize = (Math.random() * 20 + 30) + "px";
-      document.body.appendChild(lemon);
-    }
-  </script>
-
+  <div class="container">
+    <div class="line" style="animation-delay: 1s;">We used to talk all day… now even a ‘hi’ feels like a gift.</div>
+    <div class="line" style="animation-delay: 3s;">You’re out there living, studying, laughing… and I’m here, stuck on our last conversation.</div>
+    <div class="line" style="animation-delay: 5s;">It’s not jealousy. It’s just… missing the ‘us’ that had no gaps.</div>
+    <div class="line" style="animation-delay: 7s;">You found a new routine. I’m still waking up to a memory.</div>
+    <div class="line" style="animation-delay: 9s;">I'm not mad. I'm just... not part of your breaks anymore.</div>
+    <div class="line" style="animation-delay: 11s;">Every coffee break you spend with someone else… I sip mine alone, pretending you're still texting me.</div>
+    <div class="line" style="animation-delay: 13s;">I know you’re happy there. And that should be enough. But I wish I still fit somewhere in that happiness.</div>
+  </div>
 </body>
 </html>

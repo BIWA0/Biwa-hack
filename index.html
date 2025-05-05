@@ -1,82 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I Miss Us</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(180deg, #000000, #3c1a62);
-      color: #f9c6c6;
+      background-color: #111;
+      color: #f4f4f4;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-      animation: pulse 1.5s ease-in-out infinite;
+      padding: 40px;
+      min-height: 100vh;
+      flex-direction: column;
     }
-
     .container {
-      width: 80%;
-      max-width: 800px;
+      max-width: 700px;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    h1 {
       text-align: center;
-      animation: fadeIn 3s ease forwards;
+      margin-bottom: 30px;
+      color: #ff99cc;
     }
-
-    .line {
-      opacity: 0;
-      font-size: 1.6rem;
-      margin: 20px 0;
-      animation: appear 3s ease-in-out forwards;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.2);
+    p {
+      margin-bottom: 20px;
+      line-height: 1.7;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes appear {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .heartbeat {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.1);
-      animation: heartbeat 1s infinite ease-in-out;
-    }
-
-    @keyframes heartbeat {
-      0% { width: 100%; }
-      50% { width: 105%; }
-      100% { width: 100%; }
+    em {
+      color: #cccccc;
+      font-size: 0.95em;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="line" style="animation-delay: 1s;">We used to talk all day… now even a ‘hi’ feels like a gift.</div>
-    <div class="line" style="animation-delay: 3s;">You’re out there living, studying, laughing… and I’m here, stuck on our last conversation.</div>
-    <div class="line" style="animation-delay: 5s;">It’s not jealousy. It’s just… missing the ‘us’ that had no gaps.</div>
-    <div class="line" style="animation-delay: 7s;">You found a new routine. I’m still waking up to a memory.</div>
-    <div class="line" style="animation-delay: 9s;">I'm not mad. I'm just... not part of your breaks anymore.</div>
-    <div class="line" style="animation-delay: 11s;">Every coffee break you spend with someone else… I sip mine alone, pretending you're still texting me.</div>
-    <div class="line" style="animation-delay: 13s;">I know you’re happy there. And that should be enough. But I wish I still fit somewhere in that happiness.</div>
+    <h1>I miss us.</h1>
+    
+    <p><strong>“Evenings feel different now…”</strong><br><em>(Not sad. Just... quieter. Like something warm left the room.)</em></p>
+    
+    <p><strong>“You’re out there growing.”</strong><br><em>(New place. New people. New rhythm. I get it — and honestly, I’m glad.)</em></p>
+    
+    <p><strong>“I’m proud of you.”</strong><br><em>(For showing up, for adapting, for choosing your goals, and for getting out of those stress feelings.)</em></p>
+    
+    <p><strong>“But I miss the ‘every 2-hour’ you…”</strong><br><em>(The one who sent random messages. Shared laughs. Checked in. Even for a minute.)</em></p>
+    
+    <p><strong>“Now coffee breaks are quieter.”</strong><br><em>(I sip mine alone, reading our past evening conversations, pretending we’re still talking now.)</em></p>
+    
+    <p><strong>“I’ll wait here. Quiet, but loving.”</strong><br><em>(I love you. I’ll wait for you. It’s just that… it became quieter around me after almost six months, since you’re the only person I’ve been talking to. But I’m so happy for you, love.)</em></p>
   </div>
-  <div class="heartbeat"></div>
 </body>
 </html>
